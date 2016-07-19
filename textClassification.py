@@ -23,7 +23,7 @@ word_features = list(all_words.keys())[:3000]
 
 def find_features(document):
     words = set(document)
-    features = []
+    features = {}
     for w in word_features:
         features[w] = (w in words)
 
@@ -44,6 +44,6 @@ classifier_f.close()
 print('Naive Bayes Accuracy %:', nltk.classify.accuracy(classifier, testing_set)*100)
 classifier.show_most_informative_features(15)
 
-save_classifier = open('naivebayes.pickle','wb')
-pickle.dump(classifier, save_classifier)
-save_classifier.close()
+# save_classifier = open('naivebayes.pickle','wb')
+# pickle.dump(classifier, save_classifier)
+# save_classifier.close()
