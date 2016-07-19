@@ -24,9 +24,16 @@ def find_features(document):
     words = set(document)
     features = []
     for w in word_features:
-        features[w] = (w in words)
+        features[w] = [w in words]
 
     return features
 
-print((find_features(movie_reviews.words('neg/cv000_29416.txt'))))
+#print((find_features(movie_reviews.words('neg/cv000_29416.txt'))))
 featuresets = [(find_features(rev), category) for (rev, category) in documents]
+
+training_set = featuresets[:1900]
+testing_set = featuresets[1900:]
+
+classifier = nltk.NaiveBayesClassifier.train(training_set)
+print('Naive Bayes Accuracy %:', nltk.classify.accuracy(classifier, testing_set)*100)
+classifier.show_most_informative_features(15)
