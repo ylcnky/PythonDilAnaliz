@@ -1,5 +1,6 @@
 import nltk
 import random
+import pickle
 from nltk.corpus import movie_reviews
 
 documents = [(list(movie_reviews.words(fileid)),category)
@@ -24,7 +25,7 @@ def find_features(document):
     words = set(document)
     features = []
     for w in word_features:
-        features[w] = [w in words]
+        features[w] = (w in words)
 
     return features
 
@@ -35,5 +36,14 @@ training_set = featuresets[:1900]
 testing_set = featuresets[1900:]
 
 classifier = nltk.NaiveBayesClassifier.train(training_set)
+
+classifier_f = open('naivebayes.pickle','rb')
+classifier = pickle.load(classifier_f)
+classifier_f.close()
+
 print('Naive Bayes Accuracy %:', nltk.classify.accuracy(classifier, testing_set)*100)
 classifier.show_most_informative_features(15)
+
+save_classifier = open('naivebayes.pickle','wb')
+pickle.dump(classifier, save_classifier)
+save_classifier.close()
